@@ -1,10 +1,11 @@
 // GymTracker Service Worker
-const CACHE_NAME = 'gymtracker-v1';
+const CACHE_NAME = 'gymtracker-v2';
 const urlsToCache = [
     './',
     './index.html',
     './styles.css',
     './app.js',
+    './firebase-config.js',
     './manifest.json',
     './icons/icon-192.png',
     './icons/icon-512.png'
