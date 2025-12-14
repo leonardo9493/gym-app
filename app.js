@@ -653,10 +653,22 @@ class UIManager {
                 this.renderWeightChart();
             });
         });
+
+        // Handle browser back button for mobile
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.view) {
+                this.showView(event.state.view, false);
+            } else {
+                this.showView('menu', false);
+            }
+        });
+
+        // Set initial state
+        history.replaceState({ view: 'menu' }, '', window.location.pathname);
     }
 
     // View Management
-    showView(viewName) {
+    showView(viewName, addToHistory = true) {
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
 
         if (viewName === 'menu') {
@@ -674,6 +686,14 @@ class UIManager {
         }
 
         this.currentView = viewName;
+
+        // Add to browser history for back button support
+        if (addToHistory && viewName !== 'menu') {
+            history.pushState({ view: viewName }, '', `#${viewName}`);
+        } else if (addToHistory && viewName === 'menu') {
+            // Replace state for menu to avoid going back to empty state
+            history.replaceState({ view: 'menu' }, '', window.location.pathname);
+        }
     }
 
     // Tab Management
