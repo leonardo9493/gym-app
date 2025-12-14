@@ -529,13 +529,6 @@ class UIManager {
         this.btnWeight = document.getElementById('btn-weight');
         this.btnBackFromRoutines = document.getElementById('btn-back-from-routines');
         this.btnNewRoutine = document.getElementById('btn-new-routine');
-        this.btnExport = document.getElementById('btn-export');
-        this.btnImport = document.getElementById('btn-import');
-
-        // Stats
-        this.statWorkouts = document.getElementById('stat-workouts');
-        this.statRoutines = document.getElementById('stat-routines');
-        this.statExercises = document.getElementById('stat-exercises');
 
         // Current Routine Preview
         this.currentRoutinePreview = document.getElementById('current-routine-preview');
@@ -626,9 +619,7 @@ class UIManager {
         this.filterRoutine.addEventListener('change', () => this.renderHistory());
         this.btnExportCsv.addEventListener('click', () => this.exportHistoryCsv());
 
-        // Export/Import
-        this.btnExport.addEventListener('click', () => this.exportData());
-        this.btnImport.addEventListener('click', () => this.importFileInput.click());
+        // Import data (via file input)
         this.importFileInput.addEventListener('change', (e) => this.importData(e));
 
         // Workout Detail Modal
@@ -720,12 +711,9 @@ class UIManager {
         }
     }
 
-    // Stats
+    // Stats (removed from menu, keeping function for compatibility)
     updateStats() {
-        const stats = this.dataManager.getStats();
-        this.statWorkouts.textContent = stats.workouts;
-        this.statRoutines.textContent = stats.routines;
-        this.statExercises.textContent = stats.exercises;
+        // Stats section was removed from menu UI
     }
 
     // Current Routine Preview
