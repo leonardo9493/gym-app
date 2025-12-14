@@ -1624,3 +1624,97 @@ body::before {
     font-size: 0.75rem;
     color: var(--text-secondary);
 }
+
+/* ========================================
+   Authentication Section
+   ======================================== */
+.auth-section {
+    margin-top: var(--spacing-xl);
+    display: flex;
+    justify-content: center;
+}
+
+.auth-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.auth-card.hidden {
+    display: none;
+}
+
+.auth-text {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+    font-size: 0.9375rem;
+}
+
+.btn-google {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    background: white;
+    color: #1f1f1f;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-family);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-google:hover {
+    background: #f8f8f8;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.google-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.user-photo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-500);
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.sync-status {
+    font-size: 0.75rem;
+    color: var(--success-500);
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+}

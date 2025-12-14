@@ -94,6 +94,11 @@ class DataManager {
 
     saveData() {
         localStorage.setItem(this.storageKey, JSON.stringify(this.data));
+
+        // Sync to Firebase if user is logged in
+        if (typeof syncToFirebase === 'function' && typeof currentUser !== 'undefined' && currentUser) {
+            syncToFirebase(this.data);
+        }
     }
 
     // Routines
@@ -2077,6 +2082,9 @@ class UIManager {
 document.addEventListener('DOMContentLoaded', () => {
     const dataManager = new DataManager();
     const uiManager = new UIManager(dataManager);
+
+    // Expose uiManager globally for Firebase sync
+    window.uiManager = uiManager;
 
     console.log('🏋️ GymTracker Multi-Day initialized!');
 });
