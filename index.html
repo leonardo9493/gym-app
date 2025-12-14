@@ -31,8 +31,33 @@
 
 <body>
     <div id="app">
+        <!-- Login View (shown first if not authenticated) -->
+        <div id="login-view" class="view active">
+            <div class="login-container">
+                <header class="app-header">
+                    <div class="logo-container">
+                        <div class="logo-icon">💪</div>
+                        <h1 class="app-title">GymTracker</h1>
+                    </div>
+                    <p class="app-subtitle">Seguimiento profesional de tus entrenamientos</p>
+                </header>
+
+                <div class="login-card">
+                    <h2 class="login-title">Bienvenido</h2>
+                    <p class="login-description">Inicia sesión para sincronizar tus datos entre todos tus dispositivos
+                    </p>
+                    <button class="btn-google btn-google-large" id="btn-google-login-main">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                            class="google-icon">
+                        Iniciar sesión con Google
+                    </button>
+                    <p class="login-note">Tu sesión quedará guardada automáticamente</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Menu View -->
-        <div id="menu-view" class="view active">
+        <div id="menu-view" class="view">
             <div class="menu-container">
                 <header class="app-header">
                     <div class="logo-container">

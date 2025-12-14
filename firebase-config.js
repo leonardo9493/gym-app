@@ -51,10 +51,27 @@ auth.onAuthStateChanged((user) => {
     updateAuthUI(user);
 
     if (user) {
-        // User is signed in - sync data from Firebase
+        // User is signed in - show menu and sync data
+        showAppView('menu');
         syncFromFirebase();
+    } else {
+        // User is signed out - show login screen
+        showAppView('login');
     }
 });
+
+function showAppView(viewName) {
+    const loginView = document.getElementById('login-view');
+    const menuView = document.getElementById('menu-view');
+
+    if (viewName === 'login') {
+        if (loginView) loginView.classList.add('active');
+        if (menuView) menuView.classList.remove('active');
+    } else if (viewName === 'menu') {
+        if (loginView) loginView.classList.remove('active');
+        if (menuView) menuView.classList.add('active');
+    }
+}
 
 function updateAuthUI(user) {
     const loggedOutSection = document.getElementById('auth-logged-out');
@@ -63,13 +80,13 @@ function updateAuthUI(user) {
     const userName = document.getElementById('user-name');
 
     if (user) {
-        loggedOutSection.classList.add('hidden');
-        loggedInSection.classList.remove('hidden');
-        userPhoto.src = user.photoURL || 'https://via.placeholder.com/48';
-        userName.textContent = user.displayName || user.email;
+        if (loggedOutSection) loggedOutSection.classList.add('hidden');
+        if (loggedInSection) loggedInSection.classList.remove('hidden');
+        if (userPhoto) userPhoto.src = user.photoURL || 'https://via.placeholder.com/48';
+        if (userName) userName.textContent = user.displayName || user.email;
     } else {
-        loggedOutSection.classList.remove('hidden');
-        loggedInSection.classList.add('hidden');
+        if (loggedOutSection) loggedOutSection.classList.remove('hidden');
+        if (loggedInSection) loggedInSection.classList.add('hidden');
     }
 }
 
@@ -118,6 +135,7 @@ async function syncFromFirebase() {
 
                 // Refresh UI
                 if (window.uiManager) {
+                    window.uiManager.dataManager.loadData();
                     window.uiManager.renderRoutines();
                     window.uiManager.updateStats();
                     window.uiManager.renderWeightHistory();
@@ -139,13 +157,20 @@ async function syncFromFirebase() {
 // ========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    const btnGoogleLogin = document.getElementById('btn-google-login');
-    const btnLogout = document.getElementById('btn-logout');
+    // Main login button (on login screen)
+    const btnGoogleLoginMain = document.getElementById('btn-google-login-main');
+    if (btnGoogleLoginMain) {
+        btnGoogleLoginMain.addEventListener('click', signInWithGoogle);
+    }
 
+    // Secondary login button (on menu screen)
+    const btnGoogleLogin = document.getElementById('btn-google-login');
     if (btnGoogleLogin) {
         btnGoogleLogin.addEventListener('click', signInWithGoogle);
     }
 
+    // Logout button
+    const btnLogout = document.getElementById('btn-logout');
     if (btnLogout) {
         btnLogout.addEventListener('click', signOut);
     }

@@ -1,5 +1,5 @@
 // GymTracker Service Worker
-const CACHE_NAME = 'gymtracker-v2';
+const CACHE_NAME = 'gymtracker-v3';
 const urlsToCache = [
     './',
     './index.html',
