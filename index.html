@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aplicación de seguimiento de entrenamientos y progreso en el gimnasio">
+    <title>GymTracker - Tu Progreso de Entrenamiento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Main Menu View -->
+        <div id="menu-view" class="view active">
+            <div class="menu-container">
+                <header class="app-header">
+                    <div class="logo-container">
+                        <div class="logo-icon">💪</div>
+                        <h1 class="app-title">GymTracker</h1>
+                    </div>
+                    <p class="app-subtitle">Seguimiento profesional de tus entrenamientos</p>
+                </header>
+
+                <div class="menu-grid">
+                    <button class="menu-card" id="btn-routines" aria-label="Gestionar rutinas de entrenamiento">
+                        <div class="menu-card-icon">🏋️</div>
+                        <h2 class="menu-card-title">Registro de Entrenamientos</h2>
+                        <p class="menu-card-description">Diseña tus rutinas y registra tus entrenamientos</p>
+                    </button>
+
+                    <button class="menu-card" id="btn-weight" aria-label="Registro de peso corporal">
+                        <div class="menu-card-icon">📊</div>
+                        <h2 class="menu-card-title">Registro de Peso</h2>
+                        <p class="menu-card-description">Controla tu peso y visualiza tu progreso</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Routine Management View -->
+        <div id="routine-view" class="view">
+            <div class="view-container">
+                <header class="view-header">
+                    <button class="btn-back" id="btn-back-from-routines">← Volver</button>
+                    <h1 class="view-title">Gestión de Entrenamientos</h1>
+                </header>
+
+                <div class="tabs">
+                    <button class="tab active" data-tab="routines-tab">📋 Mis Rutinas</button>
+                    <button class="tab" data-tab="workout-tab">💪 Registrar Entrenamiento</button>
+                    <button class="tab" data-tab="history-tab">📈 Historial</button>
+                </div>
+
+                <!-- Routines Tab -->
+                <div id="routines-tab" class="tab-content active">
+                    <div class="tab-header">
+                        <button class="btn-primary" id="btn-new-routine">+ Nueva Rutina</button>
+                    </div>
+
+                    <!-- Current Routine Preview -->
+                    <div id="current-routine-preview" class="current-routine-preview hidden">
+                        <div class="preview-header">
+                            <h3 class="preview-title">⭐ <span id="preview-routine-name">Rutina Actual</span></h3>
+                        </div>
+                        <div id="preview-days-container" class="preview-days-container">
+                            <!-- Days will be rendered here -->
+                        </div>
+                    </div>
+
+                    <div class="routines-list" id="routines-list">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📝</div>
+                            <h3>No tienes rutinas creadas</h3>
+                            <p>Crea tu primera rutina para empezar a entrenar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workout Tab -->
+                <div id="workout-tab" class="tab-content">
+                    <div class="workout-logger">
+                        <div class="select-routine-section">
+                            <label for="select-routine">Selecciona una rutina:</label>
+                            <select id="select-routine" class="select-input">
+                                <option value="">-- Elige tu rutina --</option>
+                            </select>
+                        </div>
+
+                        <div id="workout-exercises-container" class="workout-exercises">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">🏋️</div>
+                                <h3>Selecciona una rutina</h3>
+                                <p>Elige la rutina que vas a realizar hoy</p>
+                            </div>
+                        </div>
+
+                        <div id="workout-actions" class="workout-actions hidden">
+                            <button class="btn-secondary btn-large" id="btn-save-provisional">💾 Guardar
+                                provisional</button>
+                            <button class="btn-primary btn-large" id="btn-save-workout">✅ Finalizar
+                                entrenamiento</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Tab -->
+                <div id="history-tab" class="tab-content">
+                    <div class="history-filters">
+                        <select id="filter-routine" class="select-input">
+                            <option value="">Todas las rutinas</option>
+                        </select>
+                        <button class="btn-secondary" id="btn-export-csv">📥 Exportar CSV</button>
+                    </div>
+
+                    <div id="history-list" class="history-list">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📊</div>
+                            <h3>No hay entrenamientos registrados</h3>
+                            <p>Tus entrenamientos aparecerán aquí</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weight Tracking View -->
+        <div id="weight-view" class="view">
+            <div class="view-container">
+                <header class="view-header">
+                    <button class="btn-back" id="btn-back-from-weight">← Volver</button>
+                    <h1 class="view-title">Registro de Peso</h1>
+                </header>
+
+                <div class="weight-content">
+                    <!-- Weight Chart -->
+                    <div class="weight-chart-container">
+                        <div class="weight-chart-filters">
+                            <button class="chart-filter-btn active" data-range="14">14 días</button>
+                            <button class="chart-filter-btn" data-range="30">1 mes</button>
+                            <button class="chart-filter-btn" data-range="all">Todo</button>
+                        </div>
+                        <canvas id="weight-chart"></canvas>
+                    </div>
+
+                    <!-- Weight Actions -->
+                    <div class="weight-actions">
+                        <button class="btn-primary btn-large" id="btn-add-weight">➕ Registrar Peso</button>
+                        <button class="btn-secondary" id="btn-export-weight-csv">📥 Exportar CSV</button>
+                    </div>
+
+                    <!-- Weight History Table -->
+                    <div class="weight-history">
+                        <h3 class="section-title">Historial de Mediciones</h3>
+                        <div id="weight-history-list" class="weight-history-list">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📊</div>
+                                <p>No hay registros de peso todavía</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- Routine Editor Modal -->
+    <div id="routine-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="routine-modal-title">Nueva Rutina</h2>
+                <button class="btn-close" id="btn-close-routine-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="routine-name">Nombre de la rutina</label>
+                    <input type="text" id="routine-name" class="input-text"
+                        placeholder="Ej: Push Day, Pull Day, Legs..." maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label>Ejercicios</label>
+                    <div class="exercises-list" id="modal-exercises-list">
+                        <div class="empty-state-small">
+                            <p>Añade ejercicios a tu rutina</p>
+                        </div>
+                    </div>
+                    <div class="add-exercise-section">
+                        <div class="add-exercise-row">
+                            <input type="text" id="new-exercise-name" class="input-text exercise-name-input"
+                                placeholder="Nombre del ejercicio" maxlength="100">
+                            <input type="text" id="new-exercise-sets" class="input-text exercise-sets-input"
+                                placeholder="Series (ej: 3 o 3-5)" maxlength="10">
+                            <input type="text" id="new-exercise-reps" class="input-text exercise-reps-input"
+                                placeholder="Reps (ej: 10 o 8-12)" maxlength="10">
+                            <button class="btn-secondary" id="btn-add-exercise">+ Añadir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="btn-cancel-routine">Cancelar</button>
+                <button class="btn-primary" id="btn-save-routine">Guardar Rutina</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workout Detail Modal -->
+    <div id="workout-detail-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Detalle del Entrenamiento</h2>
+                <button class="btn-close" id="btn-close-workout-detail">×</button>
+            </div>
+            <div class="modal-body" id="workout-detail-body">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Weight Input Modal -->
+    <div id="weight-modal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>Registrar Peso</h2>
+                <button class="btn-close" id="btn-close-weight-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="weight-date">Fecha</label>
+                    <input type="date" id="weight-date" class="input-text">
+                </div>
+                <div class="form-group">
+                    <label for="weight-value">Peso (kg)</label>
+                    <input type="number" id="weight-value" class="input-text" step="0.1" min="0" placeholder="Ej: 75.5">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="btn-cancel-weight">Cancelar</button>
+                <button class="btn-primary" id="btn-save-weight">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <input type="file" id="import-file-input" accept=".json" style="display: none;">
+
+    <script src="app.js"></script>
+</body>
+
+</html>
