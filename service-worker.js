@@ -1,13 +1,13 @@
 // GymTracker Service Worker
 const CACHE_NAME = 'gymtracker-v1';
 const urlsToCache = [
-    '/',
-    '/index.html',
-    '/styles.css',
-    '/app.js',
-    '/manifest.json',
-    '/icons/icon-192.png',
-    '/icons/icon-512.png'
+    './',
+    './index.html',
+    './styles.css',
+    './app.js',
+    './manifest.json',
+    './icons/icon-192.png',
+    './icons/icon-512.png'
 ];
 
 // Install event - cache resources
@@ -63,7 +63,7 @@ self.addEventListener('fetch', (event) => {
             .catch(() => {
                 // Offline fallback - return cached index.html for navigation requests
                 if (event.request.mode === 'navigate') {
-                    return caches.match('/index.html');
+                    return caches.match('./index.html');
                 }
             })
     );

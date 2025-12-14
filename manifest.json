@@ -2,7 +2,7 @@
   "name": "GymTracker",
   "short_name": "GymTracker",
   "description": "Seguimiento profesional de tus entrenamientos y peso corporal",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#6366f1",
@@ -21,6 +21,10 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["fitness", "health", "lifestyle"],
+  "categories": [
+    "fitness",
+    "health",
+    "lifestyle"
+  ],
   "lang": "es"
 }
